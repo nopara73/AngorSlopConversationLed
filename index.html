@@ -3,36 +3,1142 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AngorSlopConversationLed</title>
+    <title>Angor | Decentralized Kickstarter</title>
+    <meta
+      name="description"
+      content="A conversation-led demo landing page for Angor, the decentralized Kickstarter built on Bitcoin and Nostr."
+    >
     <style>
       :root {
-        color-scheme: light dark;
-        font-family: Arial, sans-serif;
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --bg: #f7f3ea;
+        --bg-strong: #f1e7d6;
+        --surface: rgba(255, 255, 255, 0.72);
+        --surface-strong: #ffffff;
+        --ink: #163126;
+        --ink-soft: #496355;
+        --line: rgba(22, 49, 38, 0.12);
+        --green: #173f2d;
+        --green-2: #24553e;
+        --mint: #dbe8d4;
+        --yellow: #f5de8b;
+        --salmon: #edc2a7;
+        --blue: #d9e8ff;
+        --shadow: 0 20px 60px rgba(33, 47, 38, 0.12);
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --max: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
         margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #0f172a;
-        color: #e2e8f0;
+        background:
+          radial-gradient(circle at top left, rgba(237, 194, 167, 0.35), transparent 30%),
+          radial-gradient(circle at top right, rgba(217, 232, 255, 0.7), transparent 28%),
+          linear-gradient(180deg, #fbf7ef 0%, var(--bg) 45%, #f6f1e8 100%);
+        color: var(--ink);
       }
 
-      main {
-        text-align: center;
-        padding: 2rem;
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .page-shell {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        padding: 24px 0 14px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 14px 18px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.66);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 12px 30px rgba(60, 70, 55, 0.08);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #153726, #2e6c4e);
+        color: #f7f3ea;
+        font-size: 20px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-links,
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links a,
+      .button,
+      .text-link {
+        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .nav-links a {
+        padding: 10px 14px;
+        border-radius: 999px;
+        color: var(--ink-soft);
+        font-size: 0.95rem;
+      }
+
+      .nav-links a:hover,
+      .text-link:hover {
+        transform: translateY(-1px);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background: var(--green);
+        color: #f8f6f1;
+        box-shadow: 0 14px 30px rgba(23, 63, 45, 0.2);
+      }
+
+      .button-primary:hover {
+        background: var(--green-2);
+        transform: translateY(-1px);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.52);
+        border-color: var(--line);
+        color: var(--ink);
+      }
+
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        padding: 20px 0 78px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: 34px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(22, 49, 38, 0.1);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #2f8158, #173f2d);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
       }
 
       h1 {
-        margin-bottom: 0.5rem;
+        max-width: 11ch;
+        font-size: clamp(3.4rem, 8vw, 6.6rem);
+        line-height: 0.94;
+        letter-spacing: -0.07em;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+      }
+
+      .hero-copy p {
+        margin-top: 24px;
+        font-size: clamp(1.06rem, 1.8vw, 1.25rem);
+        line-height: 1.65;
+        color: var(--ink-soft);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 32px;
+      }
+
+      .mini-proof {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .mini-proof span {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(22, 49, 38, 0.08);
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+
+      .hero-panel {
+        position: relative;
+        padding: 26px;
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(22, 49, 38, 0.09);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.76)),
+          linear-gradient(140deg, rgba(219, 232, 212, 0.6), rgba(245, 222, 139, 0.35));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        inset: auto -80px -100px auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 999px;
+        background: rgba(36, 85, 62, 0.08);
+        filter: blur(10px);
+      }
+
+      .conversation-stack {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 14px;
+      }
+
+      .card,
+      .message,
+      .stat-card,
+      .faq-card,
+      .feature-card,
+      .step,
+      .cta-band,
+      .quote-card,
+      .compare-card {
+        border: 1px solid rgba(22, 49, 38, 0.09);
+        background: var(--surface);
+        box-shadow: 0 8px 24px rgba(54, 68, 53, 0.07);
+        backdrop-filter: blur(14px);
+      }
+
+      .message {
+        padding: 18px 20px;
+        border-radius: 22px;
+      }
+
+      .message small {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--ink-soft);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .message strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.06rem;
+        letter-spacing: -0.03em;
+      }
+
+      .message p {
+        color: var(--ink-soft);
+        line-height: 1.55;
+        font-size: 0.98rem;
+      }
+
+      .message-investor {
+        margin-right: 34px;
+        border-radius: 24px 24px 24px 10px;
+      }
+
+      .message-angor {
+        margin-left: 34px;
+        background: linear-gradient(180deg, #183c2c, #214f39);
+        color: #f3f2eb;
+        border-radius: 24px 24px 10px 24px;
+        box-shadow: 0 18px 32px rgba(23, 63, 45, 0.2);
+      }
+
+      .message-angor small,
+      .message-angor p {
+        color: rgba(248, 246, 241, 0.78);
+      }
+
+      .message-angor strong {
+        color: #ffffff;
+      }
+
+      .panel-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px;
+        border-radius: 20px;
+      }
+
+      .stat-card .stat-value {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+
+      .stat-card .stat-label {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        line-height: 1.4;
+      }
+
+      section {
+        padding: 28px 0 84px;
+      }
+
+      .section-head {
+        display: grid;
+        gap: 18px;
+        margin-bottom: 32px;
+      }
+
+      .section-kicker {
+        color: var(--green-2);
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        max-width: 12ch;
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        line-height: 1;
+        letter-spacing: -0.06em;
+      }
+
+      .section-head p,
+      .body-copy {
+        max-width: 760px;
+        color: var(--ink-soft);
+        font-size: 1.05rem;
+        line-height: 1.75;
+      }
+
+      .problem-grid,
+      .claim-grid,
+      .faq-grid,
+      .deep-grid,
+      .proof-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .problem-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card,
+      .faq-card,
+      .feature-card,
+      .compare-card {
+        padding: 28px;
+        border-radius: var(--radius-lg);
+      }
+
+      .card-number,
+      .feature-icon,
+      .step-index {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: inline-grid;
+        place-items: center;
+        margin-bottom: 18px;
+        font-weight: 800;
+        background: var(--bg-strong);
+        color: var(--green);
+      }
+
+      .card h3,
+      .faq-card h3,
+      .feature-card h3,
+      .compare-card h3,
+      .step h3 {
+        font-size: 1.35rem;
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+      }
+
+      .card p,
+      .faq-card p,
+      .feature-card p,
+      .compare-card p,
+      .step p {
+        margin-top: 12px;
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      .claim-grid {
+        grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+        align-items: start;
+      }
+
+      .claim-aside {
+        display: grid;
+        gap: 18px;
+      }
+
+      .quote-card {
+        padding: 26px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, #173f2d, #214f39);
+        color: #f7f3ea;
+        box-shadow: 0 20px 40px rgba(23, 63, 45, 0.18);
+      }
+
+      .quote-card p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: rgba(247, 243, 234, 0.92);
+      }
+
+      .quote-card span {
+        display: inline-block;
+        margin-top: 18px;
+        color: rgba(247, 243, 234, 0.7);
+        font-size: 0.94rem;
+      }
+
+      .compare-card {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72)),
+          linear-gradient(120deg, rgba(245, 222, 139, 0.24), rgba(219, 232, 212, 0.36));
+      }
+
+      .compare-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .compare-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 14px 0;
+        border-top: 1px solid rgba(22, 49, 38, 0.08);
+      }
+
+      .compare-row strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+      }
+
+      .compare-row span {
+        color: var(--ink-soft);
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+
+      .steps {
+        display: grid;
+        gap: 16px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 18px;
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .step-index {
+        margin-bottom: 0;
+        background: var(--blue);
+      }
+
+      .cta-band {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 30px;
+        border-radius: var(--radius-xl);
+        background:
+          linear-gradient(130deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72)),
+          linear-gradient(90deg, rgba(237, 194, 167, 0.18), rgba(219, 232, 212, 0.46));
+      }
+
+      .cta-band h3 {
+        font-size: clamp(1.8rem, 3vw, 2.7rem);
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+      }
+
+      .cta-band p {
+        margin-top: 10px;
+        color: var(--ink-soft);
+        line-height: 1.7;
+        max-width: 760px;
+      }
+
+      .faq-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .deep-grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        align-items: start;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-card {
+        position: relative;
+        padding: 24px 24px 24px 74px;
+        border-radius: 24px;
+        border: 1px solid rgba(22, 49, 38, 0.09);
+        background: rgba(255, 255, 255, 0.68);
+        box-shadow: 0 8px 24px rgba(54, 68, 53, 0.07);
+      }
+
+      .timeline-card::before {
+        content: attr(data-step);
+        position: absolute;
+        top: 22px;
+        left: 22px;
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: var(--mint);
+        color: var(--green);
+        font-weight: 800;
+      }
+
+      .timeline-card h3 {
+        font-size: 1.25rem;
+        letter-spacing: -0.03em;
+      }
+
+      .timeline-card p {
+        margin-top: 10px;
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card:nth-child(2) .feature-icon {
+        background: var(--yellow);
+      }
+
+      .feature-card:nth-child(3) .feature-icon {
+        background: var(--salmon);
+      }
+
+      .footer {
+        padding: 0 0 40px;
+      }
+
+      .footer-card {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 22px 24px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+      }
+
+      .footer-copy {
+        color: var(--ink-soft);
+      }
+
+      .footer-copy strong {
+        color: var(--ink);
+      }
+
+      .text-link {
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      @media (max-width: 1080px) {
+        .hero-grid,
+        .claim-grid,
+        .deep-grid,
+        .cta-band {
+          grid-template-columns: 1fr;
+        }
+
+        .problem-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .page-shell {
+          width: min(var(--max), calc(100% - 20px));
+        }
+
+        .topbar {
+          padding-top: 14px;
+        }
+
+        .nav {
+          padding: 12px;
+          border-radius: 24px;
+        }
+
+        .nav-actions {
+          width: 100%;
+          justify-content: stretch;
+        }
+
+        .nav {
+          flex-wrap: wrap;
+        }
+
+        .nav-actions .button {
+          flex: 1;
+        }
+
+        .hero {
+          padding-bottom: 56px;
+        }
+
+        .hero-panel,
+        .card,
+        .faq-card,
+        .feature-card,
+        .compare-card,
+        .quote-card,
+        .cta-band,
+        .footer-card {
+          padding: 22px;
+        }
+
+        .message-investor,
+        .message-angor {
+          margin-left: 0;
+          margin-right: 0;
+        }
+
+        .panel-metrics,
+        .problem-grid,
+        .faq-grid,
+        .proof-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .compare-row {
+          grid-template-columns: 1fr;
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+
+        .step-index {
+          margin-bottom: 4px;
+        }
+
+        section {
+          padding-bottom: 60px;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>Hello, world!</h1>
-      <p>AngorSlopConversationLed is live.</p>
+    <header class="topbar">
+      <div class="page-shell">
+        <nav class="nav" aria-label="Primary">
+          <a class="brand" href="#top">
+            <span class="brand-mark">A</span>
+            <span>Angor</span>
+          </a>
+          <div class="nav-links">
+            <a href="#problem">Why now</a>
+            <a href="#solution">How it works</a>
+            <a href="#objections">Why believe it</a>
+            <a href="#details">Deep dive</a>
+          </div>
+          <div class="nav-actions">
+            <a class="button button-secondary" href="#details">See the model</a>
+            <a class="button button-primary" href="#cta">Launch on Angor</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="page-shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Bitcoin-native crowdfunding, rethought from first principles</div>
+            <h1>DECENTRALIZED KICKSTARTER</h1>
+            <p>
+              Crowdfunding is supposed to help builders earn trust. Instead, it usually asks strangers
+              to hand over money first and hope for the best. Angor flips that model by letting projects
+              raise on Bitcoin with milestone-based releases, recoverable unspent funds, and no platform
+              middleman controlling the deal.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#cta">Get funded on Angor</a>
+              <a class="button button-secondary" href="#problem">Why traditional crowdfunding breaks</a>
+            </div>
+            <div class="mini-proof" aria-label="Key proof points">
+              <span>Built on Bitcoin + Nostr</span>
+              <span>Non-custodial by design</span>
+              <span>Milestone-based releases</span>
+              <span>Understandable for first-time users</span>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Conversation preview">
+            <div class="conversation-stack">
+              <article class="message message-investor">
+                <small>Investor thinks</small>
+                <strong>"Why should I trust another crowdfunding page?"</strong>
+                <p>
+                  On most platforms, once funds are sent, control is gone. Delays, silence, and weak
+                  accountability are treated like normal.
+                </p>
+              </article>
+
+              <article class="message message-angor">
+                <small>Angor replies</small>
+                <strong>You should not have to trust first.</strong>
+                <p>
+                  Angor releases capital in stages and keeps unspent bitcoin recoverable, so founders
+                  are incentivized to prove progress before receiving more.
+                </p>
+              </article>
+
+              <article class="message message-investor">
+                <small>Founder asks</small>
+                <strong>"Will this make fundraising harder?"</strong>
+                <p>
+                  No. It makes your project easier to believe. Clear milestones and stronger investor
+                  protections turn skepticism into momentum.
+                </p>
+              </article>
+
+              <div class="panel-metrics" aria-label="Summary metrics">
+                <div class="stat-card">
+                  <span class="stat-value">0</span>
+                  <span class="stat-label">platform gatekeepers between founders and backers</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-value">BTC</span>
+                  <span class="stat-label">native funding rails instead of patched-on crypto wrappers</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-value">Stages</span>
+                  <span class="stat-label">that create accountability all the way through delivery</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="problem">
+        <div class="page-shell">
+          <div class="section-head">
+            <span class="section-kicker">The problem</span>
+            <h2>Crowdfunding still runs on blind trust.</h2>
+            <p>
+              The visitor's first question is not "What is Angor?" It is "Why does this need to exist?"
+              The answer is simple: today's funding platforms make investors carry too much risk, founders
+              suffer from trust friction, and platforms sit in the middle owning the relationship.
+            </p>
+          </div>
+
+          <div class="problem-grid">
+            <article class="card">
+              <div class="card-number">01</div>
+              <h3>Money moves before confidence does.</h3>
+              <p>
+                Traditional platforms collect funds upfront, even though the real proof comes later. That
+                creates a trust gap right when projects most need belief.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-number">02</div>
+              <h3>Backers have weak protection if momentum breaks.</h3>
+              <p>
+                When updates slow down or milestones slip, supporters are usually left with little recourse
+                beyond frustration, comments, and crossed fingers.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-number">03</div>
+              <h3>Platforms become the center of the deal.</h3>
+              <p>
+                Intermediaries decide the rules, hold the rails, and often own the audience. That is the
+                opposite of the open internet ethos many Bitcoin-native builders want.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="solution">
+        <div class="page-shell">
+          <div class="section-head">
+            <span class="section-kicker">The claim</span>
+            <h2>Angor fixes crowdfunding by changing the agreement.</h2>
+            <p>
+              Instead of asking people to trust a founder, a platform, and a payment processor all at once,
+              Angor uses Bitcoin-native contracts and decentralized communication to make accountability part
+              of the funding model itself.
+            </p>
+          </div>
+
+          <div class="claim-grid">
+            <div class="claim-aside">
+              <aside class="quote-card">
+                <p>
+                  "The job of the platform is not to ask for more trust. It is to require less of it."
+                </p>
+                <span>The design principle behind this Angor concept</span>
+              </aside>
+
+              <article class="compare-card">
+                <h3>Why this feels stronger immediately</h3>
+                <div class="compare-list">
+                  <div class="compare-row">
+                    <div>
+                      <strong>Old model</strong>
+                      <span>Send money now. Hope updates stay honest later.</span>
+                    </div>
+                    <div>
+                      <strong>Angor model</strong>
+                      <span>Define milestones first. Release funding as progress is earned.</span>
+                    </div>
+                  </div>
+                  <div class="compare-row">
+                    <div>
+                      <strong>Old model</strong>
+                      <span>The platform is the safety net.</span>
+                    </div>
+                    <div>
+                      <strong>Angor model</strong>
+                      <span>The protocol is the safety net.</span>
+                    </div>
+                  </div>
+                  <div class="compare-row">
+                    <div>
+                      <strong>Old model</strong>
+                      <span>Crypto fundraising often adds complexity without clarity.</span>
+                    </div>
+                    <div>
+                      <strong>Angor model</strong>
+                      <span>Bitcoin rails, milestone logic, and direct founder-backer alignment.</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="steps" aria-label="Three-part explanation">
+              <article class="step">
+                <div class="step-index">1</div>
+                <div>
+                  <h3>Founders define a staged plan up front.</h3>
+                  <p>
+                    Projects raise against clear milestones, timelines, and funding structure. That turns the
+                    campaign into a commitment framework, not just a pitch page.
+                  </p>
+                </div>
+              </article>
+
+              <article class="step">
+                <div class="step-index">2</div>
+                <div>
+                  <h3>Bitcoin is released progressively, not all at once.</h3>
+                  <p>
+                    Funds move in stages tied to progress, creating a practical accountability loop that
+                    protects investors while rewarding delivery.
+                  </p>
+                </div>
+              </article>
+
+              <article class="step">
+                <div class="step-index">3</div>
+                <div>
+                  <h3>Unspent funds remain recoverable.</h3>
+                  <p>
+                    This is the moment skepticism changes. Angor gives backers meaningful control over risk,
+                    which makes bold projects easier to support in the first place.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta">
+        <div class="page-shell">
+          <div class="cta-band">
+            <div>
+              <h3>Raise conviction, not just capital.</h3>
+              <p>
+                Angor gives founders a smarter pitch: a Bitcoin-native crowdfunding model where trust is
+                earned in stages, not demanded upfront.
+              </p>
+            </div>
+            <a class="button button-primary" href="#details">See how Angor works</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="objections">
+        <div class="page-shell">
+          <div class="section-head">
+            <span class="section-kicker">Objection handling</span>
+            <h2>The next questions are obvious. So answer them directly.</h2>
+            <p>
+              A persuasive landing page should keep pace with the visitor's doubts. This section is designed
+              to resolve the exact objections a first-time founder, investor, or founder-backed skeptic would
+              raise after hearing the pitch.
+            </p>
+          </div>
+
+          <div class="faq-grid">
+            <article class="faq-card">
+              <h3>"Is this just crowdfunding with crypto paint on it?"</h3>
+              <p>
+                No. Angor is not bolting tokens onto a traditional platform. It uses Bitcoin-native funding
+                logic, milestone releases, and decentralized infrastructure to change the trust model itself.
+              </p>
+            </article>
+
+            <article class="faq-card">
+              <h3>"Will normal people understand it?"</h3>
+              <p>
+                They do not need to understand every protocol primitive. They only need to understand the
+                value proposition: funds are structured, progress matters, and investors are not trapped.
+              </p>
+            </article>
+
+            <article class="faq-card">
+              <h3>"Why would a founder want more constraints?"</h3>
+              <p>
+                Because better constraints create more confidence. Angor helps serious founders look more
+                credible by showing discipline before they ask for capital.
+              </p>
+            </article>
+
+            <article class="faq-card">
+              <h3>"What makes this feel trustworthy?"</h3>
+              <p>
+                Bitcoin-secured funding rails, staged release logic, decentralized communication via Nostr,
+                and an open, protocol-led model that minimizes dependence on a central operator.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="details">
+        <div class="page-shell">
+          <div class="section-head">
+            <span class="section-kicker">Deeper explanation</span>
+            <h2>Under the hood, the story stays simple.</h2>
+            <p>
+              Once the visitor believes the concept, the next job is reinforcement. This part of the page
+              explains how Angor works in enough detail to feel real, while staying accessible to people who
+              are new to decentralized fundraising.
+            </p>
+          </div>
+
+          <div class="deep-grid">
+            <div class="timeline">
+              <article class="timeline-card" data-step="1">
+                <h3>Launch a project with clear milestones.</h3>
+                <p>
+                  Founders publish what they are building, how much bitcoin they want to raise, how the work
+                  is staged, and what progress unlocks the next release.
+                </p>
+              </article>
+
+              <article class="timeline-card" data-step="2">
+                <h3>Backers fund through Bitcoin-native rails.</h3>
+                <p>
+                  Capital is committed into a structure designed for staged delivery instead of one-way trust.
+                  That changes the feel of the investment immediately.
+                </p>
+              </article>
+
+              <article class="timeline-card" data-step="3">
+                <h3>Updates and coordination happen over decentralized channels.</h3>
+                <p>
+                  Angor uses Nostr for project metadata and communication so the relationship between founders
+                  and backers is not locked inside a central platform's database.
+                </p>
+              </article>
+
+              <article class="timeline-card" data-step="4">
+                <h3>Progress earns funding. Stalls protect backers.</h3>
+                <p>
+                  Milestone-based releases keep incentives aligned. If a project stops delivering, unspent
+                  funds remain recoverable, reducing the all-or-nothing risk.
+                </p>
+              </article>
+            </div>
+
+            <div class="proof-grid">
+              <article class="feature-card">
+                <div class="feature-icon">B</div>
+                <h3>Bitcoin-native</h3>
+                <p>
+                  Angor is built for Bitcoin from the start, using the security and credibility of the most
+                  established decentralized monetary network.
+                </p>
+              </article>
+
+              <article class="feature-card">
+                <div class="feature-icon">M</div>
+                <h3>Milestone-aligned</h3>
+                <p>
+                  Funding is tied to progress, which helps founders prove seriousness and gives investors a
+                  more rational way to support ambitious ideas.
+                </p>
+              </article>
+
+              <article class="feature-card">
+                <div class="feature-icon">N</div>
+                <h3>Nostr-connected</h3>
+                <p>
+                  Communication and metadata live on decentralized rails too, reinforcing the idea that Angor
+                  is a protocol, not just another polished intermediary.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="page-shell">
+          <div class="cta-band">
+            <div>
+              <h3>The clearest way to explain Angor is also the strongest way to sell it.</h3>
+              <p>
+                Start with the broken trust model. Show the protocol-level fix. Resolve the skepticism. Then
+                invite founders and backers into a system that feels safer, fairer, and more modern from the
+                first scroll.
+              </p>
+            </div>
+            <a class="button button-primary" href="#top">Back to top</a>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer class="footer">
+      <div class="page-shell">
+        <div class="footer-card">
+          <div class="footer-copy">
+            <strong>Angor</strong><br>
+            A demo concept for a founder-facing landing page focused on clarity, persuasion, and trust.
+          </div>
+          <a class="text-link" href="#cta">Designed to impress from the first question onward</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
